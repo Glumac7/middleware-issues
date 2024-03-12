@@ -34,9 +34,6 @@ import { NextResponse } from "next/server";
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest, response: NextResponse) {
   console.log("middleware");
-  console.log("====================================");
-  console.log(response);
-  console.log("====================================");
   //response.headers.set("x-middleware-cache", "no-cache");
   return NextResponse.next();
 }

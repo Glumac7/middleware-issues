@@ -47,7 +47,7 @@ module.exports = () => {
     crossOrigin: "anonymous",
     optimizeFonts: false,
     productionBrowserSourceMaps: true,
-    pageExtensions: ["js", "tsx", "de.js", "ade.js", "ts"],
+    pageExtensions: ["js", "tsx", "de.js", "ade.js", "api.ts"],
     // does run during build, access with it with process.env.<var>
     // vars replaced during build by webpack
     // do not set secrets here as they get exposed
