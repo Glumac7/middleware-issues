@@ -1,48 +1,15 @@
 const Path = require("path");
 const nanoid = require("nanoid").nanoid;
 const readFile = require("fs").readFileSync;
-const hostname = require("os").hostname();
-const isProd = process.env.NODE_ENV === "production";
 const profile = process.env.PROFILE === "true";
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
 
-const SENTRY_DSN =
-  process.env.MODE === "intern"
-    ? "https://520da02a9879d7e54289520a5646ee88@o89023.ingest.sentry.io/4506240869924864"
-    : "https://f01a584256af4e6d9b388177afefbda2@o89023.ingest.sentry.io/5539007";
-
-let SENTRY_ENVIRONMENT = "";
-if (process.env.GCP_STAGE) {
-  SENTRY_ENVIRONMENT = process.env.GCP_STAGE;
-}
-if (SENTRY_ENVIRONMENT === "durchblicker-at-prod") {
-  SENTRY_ENVIRONMENT = "production";
-}
-
 module.exports = () => {
-  //NC stands for next config, so its identifiable
-  //do not use any secrets or confidential information here. you can use utils/config for that
-  const env = {
-    NC_SAVINGS: "3.950",
-    NC_STORAGE_SERVER_HOST: "127.0.0.1",
-    NC_STORAGE_CLIENT_PATH: "/api/0.2/storage/",
-    NC_STORAGE_SERVER_PORT: "9030",
-    NC_STORAGE_SERVER_PATH: "/api/next/storage/",
-    NC_SENTRY_DSN: SENTRY_DSN,
-    NC_SENTRY_ENVIRONMENT: SENTRY_ENVIRONMENT,
-    NC_SENTRY_AUTO_SESSION_TRACKING: "true",
-    NC_SENTRY_DEBUG: String(!isProd),
-    NC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE: "0",
-    NC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE: "0.1",
-    NC_SENTRY_SERVER_NAME: hostname,
-  };
-
   /** @type {import('next').NextConfig} */
   const nextConfig = {
-    env: env,
     generateEtags: false,
     crossOrigin: "anonymous",
     optimizeFonts: false,
@@ -72,21 +39,6 @@ module.exports = () => {
       domains: ["res.cloudinary.com", "d3c90x7s263fnk.cloudfront.net"],
     },
     webpack: function (config, { isServer, buildId, webpack }) {
-      // DATENEINGABE Loader
-
-      config.resolve = config.resolve || {};
-      config.resolve.alias = config.resolve.alias || {};
-      config.resolve.alias.dateneingabe = Path.join(__dirname, "dateneingabe");
-      config.resolve.alias.components = Path.join(__dirname, "components");
-      config.resolve.alias.styles = Path.join(__dirname, "styles");
-      config.resolve.alias.config = Path.join(__dirname, "config");
-      config.resolve.alias.utils = Path.join(__dirname, "utils");
-      config.resolve.alias.lib = Path.join(__dirname, "lib");
-      config.resolve.alias.icons = Path.join(
-        __dirname,
-        "components/inlineIcons"
-      );
-
       config.plugins.push(
         // Remove node: from import specifiers, because
         // webpack does not yet support node: scheme
