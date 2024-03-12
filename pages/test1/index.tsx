@@ -1,4 +1,4 @@
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 export default function Test({ stars }) {
   console.log(stars);
@@ -6,13 +6,14 @@ export default function Test({ stars }) {
 
   return (
     <>
-      <p>bla bla bla {stars}</p>
+      <p>First Page</p>
       <button
+        className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => {
           router.push("/test2/234");
         }}
       >
-        link to 2
+        go to second page
       </button>
     </>
   );

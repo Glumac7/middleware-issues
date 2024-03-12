@@ -5,14 +5,14 @@ export default function Test2({ title, asd }) {
   const router = useRouter();
   return (
     <>
-      {asd.stars}
-      <p>bla bla bla 2</p>
+      <p>Second Page</p>
       <button
+        className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => {
           router.push("/test1");
         }}
       >
-        link to 1
+        go to first page
       </button>
     </>
   );
